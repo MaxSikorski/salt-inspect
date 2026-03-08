@@ -107,4 +107,4 @@ Reference: [SALT paper (arXiv:2509.24317)](https://arxiv.org/abs/2509.24317) —
 
 ## Built By
 
-**Sikorski AI Research Lab** — [max@sikorski.ai](mailto:max@sikorski.ai)
+**Sikorski AI Research Lab** — [Max](mailto:maxwell.sikorski@gmail.com)
