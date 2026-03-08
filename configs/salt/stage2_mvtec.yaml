@@ -1,0 +1,38 @@
+# SALT Stage 2: Frozen Teacher → Student JEPA on MVTec AD (224×224)
+# Freezes the Stage 1 teacher and trains a student to predict teacher latents.
+
+model:
+  encoder:
+    img_size: 224
+    patch_size: 16
+    embed_dim: 192
+    depth: 12
+    num_heads: 3
+    mlp_ratio: 4.0
+
+  predictor:
+    embed_dim: 192
+    predictor_embed_dim: 96
+    depth: 4
+    num_heads: 3
+
+training:
+  epochs: 200
+  batch_size: 32
+  gradient_clip: 1.0
+
+  optimizer:
+    lr: 1.5e-4
+    weight_decay: 0.04
+    betas: [0.9, 0.95]
+    min_lr: 1.0e-6
+
+  masking:
+    num_targets: 4
+    grid_size: 14  # 224 / 16 = 14
+
+data:
+  dataset: mvtec-ad
+  split: train
+  defect_type: good
+  img_size: 224

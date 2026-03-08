@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SALT Inspector — Industrial Defect Detection in Your Browser</title>
+  <meta name="description" content="Real-time industrial anomaly detection powered by SALT (Apple ICLR 2025). Live ONNX inference on MVTec AD — no server required.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ---- Top Controls ---- -->
+  <div class="top-controls">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+      <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="nav-backdrop"></div>
+  <nav class="nav-menu">
+    <a href="#hero">Home</a>
+    <a href="#demo">Live Demo</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#training">Training Results</a>
+    <a href="#applications">Applications</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ---- Hero ---- -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-badge">Powered by SALT — Apple ICLR 2025</div>
+      <h1>Industrial Defect Detection.<br><span class="hero-highlight">In Your Browser.</span></h1>
+      <p class="hero-subtitle">
+        Real-time anomaly detection on manufactured parts using self-supervised vision AI.
+        No server. No cloud. Just your browser and a trained model.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-target="15">0</span>
+          <span class="stat-label">Part Categories</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="196">0</span>
+          <span class="stat-label">Inspection Patches</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="100" data-prefix="<" data-suffix="ms">0</span>
+          <span class="stat-label">Inference Time</span>
+        </div>
+      </div>
+      <a href="#demo" class="hero-cta">
+        Try the Live Demo
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ---- Live Demo ---- -->
+  <section id="demo" class="demo-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Live Anomaly Detection</h2>
+      <p class="section-subtitle fade-in">
+        Select a sample part, upload your own image, or use your camera.
+        The SALT model runs entirely in your browser via ONNX Runtime WASM.
+      </p>
+
+      <!-- Demo Tabs -->
+      <div class="demo-tabs">
+        <button class="demo-tab active" data-tab="samples">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+          Samples
+        </button>
+        <button class="demo-tab" data-tab="upload">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10V2M4 6l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Upload
+        </button>
+        <button class="demo-tab" data-tab="camera">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h2l1-2h6l1 2h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          Camera
+        </button>
+      </div>
+
+      <!-- Category Filter (for samples tab) -->
+      <div class="category-filter" id="categoryFilter">
+        <select id="categorySelect">
+          <option value="all">All Categories</option>
+        </select>
+      </div>
+
+      <!-- Demo Content Area -->
+      <div class="demo-layout">
+        <!-- Left: Input -->
+        <div class="demo-input">
+          <!-- Samples Grid -->
+          <div class="tab-content active" id="samplesTab">
+            <div class="sample-grid" id="sampleGrid">
+              <div class="sample-placeholder">Loading samples...</div>
+            </div>
+          </div>
+
+          <!-- Upload Zone -->
+          <div class="tab-content" id="uploadTab">
+            <div class="upload-zone" id="uploadZone">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 32V8M14 18l10-10 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 28v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+              <p>Drop an image here or <strong>click to browse</strong></p>
+              <span class="upload-hint">JPG, PNG — resized to 224×224 for inference</span>
+              <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+          </div>
+
+          <!-- Camera View -->
+          <div class="tab-content" id="cameraTab">
+            <div class="camera-container">
+              <video id="cameraVideo" autoplay playsinline></video>
+              <canvas id="cameraOverlay" class="camera-overlay"></canvas>
+              <div class="camera-controls">
+                <button id="cameraStartBtn" class="btn btn-primary">Start Camera</button>
+                <button id="cameraStopBtn" class="btn btn-secondary" style="display:none">Stop</button>
+                <button id="cameraCaptureBtn" class="btn btn-primary" style="display:none">Capture Frame</button>
+              </div>
+              <div class="camera-status" id="cameraStatus">Camera not started</div>
+            </div>
+          </div>
+
+          <!-- Run Button -->
+          <button id="runBtn" class="run-btn" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2l10 6-10 6V2z" fill="currentColor"/></svg>
+            Run Inspection
+          </button>
+        </div>
+
+        <!-- Right: Results -->
+        <div class="demo-results">
+          <div class="results-placeholder" id="demoResults">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M12 20l6 6 10-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/></svg>
+            <p>Select an image and click "Run Inspection" to see anomaly detection results.</p>
+          </div>
+
+          <div class="results-content" id="demoResultsContent" style="display:none">
+            <!-- Preview + Heatmap -->
+            <div class="result-preview">
+              <div class="preview-pair">
+                <div class="preview-box">
+                  <label>Input</label>
+                  <canvas id="previewCanvas" width="224" height="224"></canvas>
+                </div>
+                <div class="preview-box">
+                  <label>Anomaly Heatmap</label>
+                  <canvas id="heatmapCanvas" width="224" height="224"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Anomaly Score -->
+            <div class="anomaly-score" id="anomalyScore">
+              <div class="score-header">
+                <span class="score-label">Anomaly Score</span>
+                <span class="score-value" id="scoreValue">—</span>
+              </div>
+              <div class="score-bar">
+                <div class="score-fill" id="scoreFill"></div>
+              </div>
+              <div class="score-verdict" id="scoreVerdict">—</div>
+            </div>
+
+            <!-- Metadata -->
+            <div class="result-meta">
+              <div class="meta-item">
+                <span class="meta-label">Inference</span>
+                <span class="meta-value" id="inferenceTime">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Category</span>
+                <span class="meta-value" id="detectedCategory">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Patches</span>
+                <span class="meta-value" id="embeddingShape">196 × 192</span>
+              </div>
+            </div>
+
+            <!-- k-NN Results -->
+            <div class="knn-section">
+              <h4>Nearest Normal References</h4>
+              <div id="knnResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- How It Works ---- -->
+  <section id="how-it-works" class="how-section">
+    <div class="container">
+      <h2 class="section-title fade-in">How It Works</h2>
+      <p class="section-subtitle fade-in">
+        SALT learns what "normal" looks like, then flags anything that deviates.
+        No labeled defect images required.
+      </p>
+
+      <div class="pipeline-steps">
+        <div class="pipeline-step fade-in">
+          <div class="step-number">1</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="3" stroke="currentColor" stroke-width="2"/><path d="M4 12h24M12 4v24" stroke="currentColor" stroke-width="1.5" opacity="0.4"/></svg>
+          </div>
+          <h3>Learn Normal</h3>
+          <p>Stage 1 trains a vision model on thousands of normal parts using masked image reconstruction. The model learns the structure and appearance of defect-free components.</p>
+        </div>
+
+        <div class="pipeline-step fade-in">
+          <div class="step-number">2</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="10" cy="16" r="6" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="16" r="6" stroke="currentColor" stroke-width="2"/><path d="M14 13l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Build Representations</h3>
+          <p>Stage 2 freezes the teacher and trains a student model using JEPA latent prediction. The student learns robust, compact representations of normal parts — no EMA needed.</p>
+        </div>
+
+        <div class="pipeline-step fade-in">
+          <div class="step-number">3</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4v8l6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M8 24l4-4M20 24l4-4" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Detect Anomalies</h3>
+          <p>At inference, the model encodes a new image into 196 patch embeddings. Each patch is compared against normal references — patches that deviate are flagged as potential defects.</p>
+        </div>
+      </div>
+
+      <div class="tech-detail fade-in">
+        <div class="tech-label">Architecture</div>
+        <div class="tech-specs">
+          <span>Vision Transformer</span>
+          <span class="dot"></span>
+          <span>224×224 input</span>
+          <span class="dot"></span>
+          <span>16×16 patches</span>
+          <span class="dot"></span>
+          <span>14×14 grid</span>
+          <span class="dot"></span>
+          <span>192-dim embeddings</span>
+          <span class="dot"></span>
+          <span>12 transformer layers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- Training Results ---- -->
+  <section id="training" class="training-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Training Results</h2>
+      <p class="section-subtitle fade-in">
+        Trained on MVTec AD — the industry-standard benchmark for industrial anomaly detection.
+        15 categories of manufactured parts, trained on normal images only.
+      </p>
+
+      <div class="chart-grid">
+        <div class="chart-card fade-in">
+          <h3>Stage 1: MAE Reconstruction Loss</h3>
+          <p class="chart-desc">Pixel-level reconstruction of masked patches — the teacher learns visual structure.</p>
+          <div class="chart-container" id="stage1Chart"></div>
+        </div>
+        <div class="chart-card fade-in">
+          <h3>Stage 2: JEPA Latent Loss</h3>
+          <p class="chart-desc">Student predicts frozen teacher representations — builds compact defect-sensitive features.</p>
+          <div class="chart-container" id="stage2Chart"></div>
+        </div>
+      </div>
+
+      <div class="training-meta fade-in" id="trainingMeta">
+        <!-- Populated by JS from training-metrics.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- Applications ---- -->
+  <section id="applications" class="applications-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Where This Applies</h2>
+      <p class="section-subtitle fade-in">
+        Self-supervised defect detection eliminates the need for thousands of labeled defect images.
+        Train on normal parts, deploy on the edge.
+      </p>
+
+      <div class="app-grid">
+        <div class="app-card fade-in">
+          <div class="app-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20V8l10-4 10 4v12l-10 4-10-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 8l10 4 10-4M14 12v12" stroke="currentColor" stroke-width="1.5" opacity="0.5"/></svg>
+          </div>
+          <h3>3D Printing QC</h3>
+          <p>Detect layer shifts, warping, stringing, and under-extrusion on printed parts in real-time during production.</p>
+        </div>
+        <div class="app-card fade-in">
+          <div class="app-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="6" y="4" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/><path d="M10 10h8M10 14h8M10 18h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>
+          </div>
+          <h3>Electronics Inspection</h3>
+          <p>PCB solder joint verification, component placement validation, and surface defect detection on circuit boards.</p>
+        </div>
+        <div class="app-card fade-in">
+          <div class="app-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="2"/><path d="M14 8v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>CNC & Machining</h3>
+          <p>Surface finish verification, dimensional accuracy checks, and tool wear detection on machined metal components.</p>
+        </div>
+        <div class="app-card fade-in">
+          <div class="app-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C8.5 4 4 8.5 4 14s4.5 10 10 10 10-4.5 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 4c3 0 6 4.5 6 10s-3 10-6 10" stroke="currentColor" stroke-width="1.5" opacity="0.5"/><path d="M4 14h20" stroke="currentColor" stroke-width="1.5" opacity="0.3"/></svg>
+          </div>
+          <h3>Textile & Materials</h3>
+          <p>Fabric defect detection, surface contamination screening, and material consistency verification across production runs.</p>
+        </div>
+      </div>
+
+      <div class="edge-callout fade-in">
+        <div class="callout-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h4>Runs on the Edge</h4>
+          <p>The ONNX model is under 20MB and runs in-browser or on edge devices. No cloud dependency, no data leaves the factory floor. Deploy on Raspberry Pi, Jetson, or any device with a browser.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- Contact ---- -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title fade-in">See How This Applies to Your Line</h2>
+      <p class="section-subtitle fade-in">
+        Interested in deploying edge AI for manufacturing inspection, robotics, or quality control? Let's talk.
+      </p>
+
+      <form class="contact-form" action="https://formspree.io/f/xwvrproj" method="POST">
+        <input type="hidden" name="_subject" value="SALT Inspector Inquiry">
+        <div class="form-group">
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" name="name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" name="email" required placeholder="you@company.com">
+        </div>
+        <div class="form-group">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" required placeholder="Tell me about your production line or inspection challenge..."></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+        <p class="form-note">Your message goes directly to my inbox. I typically respond within 24 hours.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ---- Footer ---- -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>Built by <strong>Sikorski AI Research Lab</strong></p>
+        <p class="footer-tech">SALT (Apple ICLR 2025) &middot; MVTec AD &middot; ONNX Runtime Web &middot; Vision Transformer</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/inspector-demo.js"></script>
+  <script src="js/camera-demo.js"></script>
+  <script src="js/training-charts.js"></script>
+</body>
+</html>
