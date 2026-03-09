@@ -86,8 +86,10 @@
 
   // ---- Populate category select and sample grid ----
   async function populateSamples() {
-    const samples = await loadSamples();
-    const categories = Object.keys(samples);
+    const rawSamples = await loadSamples();
+    // Support both formats: {samples: {cat: [...]}} and {cat: [...]}
+    const samples = rawSamples.samples || rawSamples;
+    const categories = Object.keys(samples).filter(k => Array.isArray(samples[k]));
 
     if (categories.length === 0) {
       sampleGrid.innerHTML = '<div class="sample-placeholder">No samples available yet. Train the model first.</div>';
@@ -116,19 +118,26 @@
     categories.forEach((cat) => {
       if (!samples[cat]) return;
       samples[cat].forEach((sample) => {
+        // Normalize fields: support both old format (base64/is_defective/defect_type)
+        // and new Colab format (image/label)
+        const imageData = sample.image || sample.base64;
+        const isDefective = sample.is_defective !== undefined ? sample.is_defective : (sample.label !== 'good');
+        const defectType = sample.defect_type || sample.label || 'unknown';
+        sample.category = sample.category || cat;
+
         const wrapper = document.createElement('div');
         wrapper.className = 'sample-item';
 
         const img = document.createElement('img');
-        img.className = 'sample-img' + (sample.is_defective ? ' defective' : '');
-        img.src = 'data:image/png;base64,' + sample.base64;
-        img.alt = cat + (sample.is_defective ? ' (defective)' : ' (normal)');
-        img.title = cat + ' — ' + sample.defect_type;
+        img.className = 'sample-img' + (isDefective ? ' defective' : '');
+        img.src = 'data:image/jpeg;base64,' + imageData;
+        img.alt = cat + (isDefective ? ' (defective)' : ' (normal)');
+        img.title = cat + ' — ' + defectType;
         img.addEventListener('click', () => selectSampleImage(img, sample));
 
         const label = document.createElement('span');
         label.className = 'sample-label';
-        label.textContent = sample.defect_type;
+        label.textContent = defectType;
 
         wrapper.appendChild(img);
         wrapper.appendChild(label);
@@ -159,7 +168,7 @@
       tctx.drawImage(img, 0, 0, IMG_SIZE, IMG_SIZE);
       selectedImageData = tctx.getImageData(0, 0, IMG_SIZE, IMG_SIZE);
     };
-    img.src = 'data:image/png;base64,' + sample.base64;
+    img.src = 'data:image/jpeg;base64,' + (sample.image || sample.base64);
 
     runBtn.disabled = false;
   }
@@ -393,7 +402,7 @@
     // Score bar color
     let barColor, verdict, verdictClass;
     if (scorePercent < 20) {
-      barColor = '#22c55e';
+      barColor = '#ef4444';
       verdict = 'PASS — No anomaly detected';
       verdictClass = 'pass';
     } else if (scorePercent < 45) {
@@ -509,7 +518,7 @@
     const avgScore = Math.round(fakeScores.reduce((a, b) => a + b) / NUM_PATCHES * 100);
     scoreValue.textContent = avgScore + '%';
     scoreFill.style.width = avgScore + '%';
-    scoreFill.style.background = avgScore < 30 ? '#22c55e' : '#f59e0b';
+    scoreFill.style.background = avgScore < 30 ? '#ef4444' : '#f59e0b';
     scoreVerdict.textContent = 'Simulated — train model for real results';
     scoreVerdict.className = 'score-verdict warning';
 

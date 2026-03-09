@@ -22,11 +22,11 @@
     }
 
     if (metrics.stage1 && stage1Container) {
-      renderChart(stage1Container, metrics.stage1, '#22c55e');
+      renderChart(stage1Container, metrics.stage1, '#ef4444');
     }
 
     if (metrics.stage2 && stage2Container) {
-      renderChart(stage2Container, metrics.stage2, '#4ade80');
+      renderChart(stage2Container, metrics.stage2, '#f87171');
     }
 
     if (metaContainer && metrics.config) {
