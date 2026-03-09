@@ -391,21 +391,25 @@
     // Render heatmap
     renderHeatmap(scores);
 
-    // Anomaly score (mean of top-10% patches for robustness)
+    // Anomaly score: use top-3 most anomalous patches (sensitive to localized defects)
+    // then amplify since raw cosine distances are small (0.01-0.15 range)
     const sorted = Array.from(scores).sort((a, b) => b - a);
-    const top10 = sorted.slice(0, Math.max(1, Math.floor(NUM_PATCHES * 0.1)));
-    const anomalyScore = top10.reduce((a, b) => a + b, 0) / top10.length;
-    const scorePercent = Math.round(anomalyScore * 100);
+    const topK = sorted.slice(0, 3);
+    const rawScore = topK.reduce((a, b) => a + b, 0) / topK.length;
+    // Amplify: map model's effective range (0-0.20) → display range (0-100%)
+    // Using sigmoid-like curve for smooth scaling
+    const amplified = Math.min(1.0, rawScore * 5.0);
+    const scorePercent = Math.round(amplified * 100);
 
     scoreValue.textContent = scorePercent + '%';
 
     // Score bar color
     let barColor, verdict, verdictClass;
-    if (scorePercent < 20) {
-      barColor = '#ef4444';
+    if (scorePercent < 25) {
+      barColor = '#22c55e';
       verdict = 'PASS — No anomaly detected';
       verdictClass = 'pass';
-    } else if (scorePercent < 45) {
+    } else if (scorePercent < 50) {
       barColor = '#f59e0b';
       verdict = 'WARNING — Possible anomaly detected';
       verdictClass = 'warning';

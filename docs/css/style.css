@@ -554,7 +554,7 @@ section { padding: 100px 0; }
   font-weight: 600;
   text-align: center;
 }
-.score-verdict.pass { color: var(--accent); }
+.score-verdict.pass { color: #22c55e; }
 .score-verdict.warning { color: var(--warning); }
 .score-verdict.fail { color: var(--danger); }
 
