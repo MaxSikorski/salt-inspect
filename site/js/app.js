@@ -171,8 +171,8 @@
             <div class="success-icon">
               <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
             </div>
-            <h3>Message sent.</h3>
-            <p>I'll get back to you within 24 hours.</p>
+            <h3>Sprint request received.</h3>
+            <p>We'll respond within 4 hours with next steps.</p>
           `;
           wrapper.appendChild(success);
         } else {

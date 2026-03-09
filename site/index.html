@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SALT Inspector — Industrial Defect Detection in Your Browser</title>
-  <meta name="description" content="Real-time industrial anomaly detection powered by SALT (Apple ICLR 2025). Live ONNX inference on MVTec AD — no server required.">
+  <title>SALT Inspector — AI Inspection Results in 48 Hours | No Defects Needed</title>
+  <meta name="description" content="Send us photos of good parts. Get a custom AI inspector in 48 hours. No defect images, no install, no vendor lock-in. Try the live demo now.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -32,48 +32,56 @@
     <a href="#hero">Home</a>
     <a href="#demo">Live Demo</a>
     <a href="#how-it-works">How It Works</a>
-    <a href="#training">Training Results</a>
-    <a href="#applications">Applications</a>
-    <a href="#contact">Contact</a>
+    <a href="#training">Proof</a>
+    <a href="#applications">Industries</a>
+    <a href="#contact">Get Results</a>
   </nav>
 
   <!-- ---- Hero ---- -->
   <section id="hero" class="hero">
     <div class="container">
-      <div class="hero-badge">Powered by SALT — Apple ICLR 2025</div>
-      <h1>Industrial Defect Detection.<br><span class="hero-highlight">In Your Browser.</span></h1>
+      <div class="hero-badge">Results in 48 Hours — No Defects Needed</div>
+      <h1>Send Us Good Parts.<br><span class="hero-highlight">Get Inspection Results.</span></h1>
       <p class="hero-subtitle">
-        Real-time anomaly detection on manufactured parts using self-supervised vision AI.
-        No server. No cloud. Just your browser and a trained model.
+        You know your line needs AI inspection. Every vendor makes it a 6-month project.
+        We collapse that to 48 hours. Send us photos of your good parts — we send you a custom AI inspector.
+        No defect images. No install. No vendor lock-in.
       </p>
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-number" data-target="15">0</span>
-          <span class="stat-label">Part Categories</span>
+          <span class="stat-number" data-target="48" data-suffix="h">0</span>
+          <span class="stat-label">To First Results</span>
         </div>
         <div class="stat">
-          <span class="stat-number" data-target="196">0</span>
-          <span class="stat-label">Inspection Patches</span>
+          <span class="stat-number" data-target="3">0</span>
+          <span class="stat-label">Steps to Deploy</span>
         </div>
         <div class="stat">
-          <span class="stat-number" data-target="100" data-prefix="<" data-suffix="ms">0</span>
-          <span class="stat-label">Inference Time</span>
+          <span class="stat-number" data-target="0" data-prefix="$">0</span>
+          <span class="stat-label">Install Cost</span>
         </div>
       </div>
-      <a href="#demo" class="hero-cta">
-        Try the Live Demo
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      <div class="hero-cta-group">
+        <a href="#demo" class="hero-cta">
+          Try the Live Demo
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contact" class="hero-cta hero-cta-secondary">
+          Get Your Results in 48 Hours
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- ---- Live Demo ---- -->
   <section id="demo" class="demo-section">
     <div class="container">
-      <h2 class="section-title fade-in">Live Anomaly Detection</h2>
+      <h2 class="section-title fade-in">See What Your Report Looks Like</h2>
       <p class="section-subtitle fade-in">
-        Select a sample part, upload your own image, or use your camera.
-        The SALT model runs entirely in your browser via ONNX Runtime WASM.
+        This is a preview of what we deliver. The demo runs on generic manufacturing samples —
+        your custom model, trained on YOUR actual parts, will be far more accurate.
+        Upload any image, point your camera at an object, or browse samples to see per-patch anomaly heatmaps in real time.
       </p>
 
       <!-- Demo Tabs -->
@@ -115,7 +123,7 @@
             <div class="upload-zone" id="uploadZone">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 32V8M14 18l10-10 10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 28v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
               <p>Drop an image here or <strong>click to browse</strong></p>
-              <span class="upload-hint">JPG, PNG — resized to 224×224 for inference</span>
+              <span class="upload-hint">JPG, PNG — resized to 224x224 for inference</span>
               <input type="file" id="fileInput" accept="image/*" hidden>
             </div>
           </div>
@@ -187,7 +195,7 @@
               </div>
               <div class="meta-item">
                 <span class="meta-label">Patches</span>
-                <span class="meta-value" id="embeddingShape">196 × 192</span>
+                <span class="meta-value" id="embeddingShape">196 x 192</span>
               </div>
             </div>
 
@@ -199,16 +207,22 @@
           </div>
         </div>
       </div>
+
+      <!-- Demo Callout -->
+      <div class="demo-callout fade-in">
+        This runs on generic samples. Your custom model trained on YOUR parts will be far more accurate.
+        <a href="#contact">Get your custom results in 48 hours &rarr;</a>
+      </div>
     </div>
   </section>
 
   <!-- ---- How It Works ---- -->
   <section id="how-it-works" class="how-section">
     <div class="container">
-      <h2 class="section-title fade-in">How It Works</h2>
+      <h2 class="section-title fade-in">We Made It Easy. 3 Steps. 48 Hours.</h2>
       <p class="section-subtitle fade-in">
-        SALT learns what "normal" looks like, then flags anything that deviates.
-        No labeled defect images required.
+        SALT Inspector is Results as a Service. You don't buy software. You don't manage a platform.
+        You don't need ML expertise. You send us photos of good parts — we send you a working inspector.
       </p>
 
       <div class="pipeline-steps">
@@ -217,8 +231,8 @@
           <div class="step-icon">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="3" stroke="currentColor" stroke-width="2"/><path d="M4 12h24M12 4v24" stroke="currentColor" stroke-width="1.5" opacity="0.4"/></svg>
           </div>
-          <h3>Learn Normal</h3>
-          <p>Stage 1 trains a vision model on thousands of normal parts using masked image reconstruction. The model learns the structure and appearance of defect-free components.</p>
+          <h3>Tell Us What You Make</h3>
+          <p>Send us 100-500 photos of your normal parts. Any camera works — even a smartphone. No defect images needed. Just good parts.</p>
         </div>
 
         <div class="pipeline-step fade-in">
@@ -226,8 +240,8 @@
           <div class="step-icon">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="10" cy="16" r="6" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="16" r="6" stroke="currentColor" stroke-width="2"/><path d="M14 13l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3>Build Representations</h3>
-          <p>Stage 2 freezes the teacher and trains a student model using JEPA latent prediction. The student learns robust, compact representations of normal parts — no EMA needed.</p>
+          <h3>We Train Your Custom Model</h3>
+          <p>Within 48 hours, our AI learns the visual signature of YOUR specific parts — textures, shapes, surfaces. You touch nothing. No software to install, no ML expertise needed.</p>
         </div>
 
         <div class="pipeline-step fade-in">
@@ -235,25 +249,23 @@
           <div class="step-icon">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4v8l6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M8 24l4-4M20 24l4-4" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/></svg>
           </div>
-          <h3>Detect Anomalies</h3>
-          <p>At inference, the model encodes a new image into 196 patch embeddings. Each patch is compared against normal references — patches that deviate are flagged as potential defects.</p>
+          <h3>Open Your Link. See Results.</h3>
+          <p>We send you a link. Open it in any browser — phone, tablet, laptop. Upload a part photo and see exactly where defects are. The demo IS the product.</p>
         </div>
       </div>
 
       <div class="tech-detail fade-in">
-        <div class="tech-label">Architecture</div>
+        <div class="tech-label">The RaaS Guarantee</div>
         <div class="tech-specs">
-          <span>Vision Transformer</span>
+          <span>3 clicks, not 3 months</span>
           <span class="dot"></span>
-          <span>224×224 input</span>
+          <span>No install required</span>
           <span class="dot"></span>
-          <span>16×16 patches</span>
+          <span>No defects needed</span>
           <span class="dot"></span>
-          <span>14×14 grid</span>
+          <span>Results in 48 hours</span>
           <span class="dot"></span>
-          <span>192-dim embeddings</span>
-          <span class="dot"></span>
-          <span>12 transformer layers</span>
+          <span>Cancel anytime</span>
         </div>
       </div>
     </div>
@@ -262,7 +274,7 @@
   <!-- ---- Training Results ---- -->
   <section id="training" class="training-section">
     <div class="container">
-      <h2 class="section-title fade-in">Training Results</h2>
+      <h2 class="section-title fade-in">Proven Across 15 Industrial Categories</h2>
       <p class="section-subtitle fade-in">
         Trained on MVTec AD — the industry-standard benchmark for industrial anomaly detection.
         15 categories of manufactured parts, trained on normal images only.
@@ -270,13 +282,13 @@
 
       <div class="chart-grid">
         <div class="chart-card fade-in">
-          <h3>Stage 1: MAE Reconstruction Loss</h3>
-          <p class="chart-desc">Pixel-level reconstruction of masked patches — the teacher learns visual structure.</p>
+          <h3>Stage 1: Learning What "Normal" Looks Like</h3>
+          <p class="chart-desc">The AI learns to reconstruct masked image patches, capturing the visual structure of your parts.</p>
           <div class="chart-container" id="stage1Chart"></div>
         </div>
         <div class="chart-card fade-in">
-          <h3>Stage 2: JEPA Latent Loss</h3>
-          <p class="chart-desc">Student predicts frozen teacher representations — builds compact defect-sensitive features.</p>
+          <h3>Stage 2: Building Your Defect Detector</h3>
+          <p class="chart-desc">A student model learns compact, defect-sensitive representations — optimized to spot anything abnormal.</p>
           <div class="chart-container" id="stage2Chart"></div>
         </div>
       </div>
@@ -287,13 +299,13 @@
     </div>
   </section>
 
-  <!-- ---- Applications ---- -->
+  <!-- ---- Industries ---- -->
   <section id="applications" class="applications-section">
     <div class="container">
-      <h2 class="section-title fade-in">Where This Applies</h2>
+      <h2 class="section-title fade-in">Industries We Serve</h2>
       <p class="section-subtitle fade-in">
-        Self-supervised defect detection eliminates the need for thousands of labeled defect images.
-        Train on normal parts, deploy on the edge.
+        If you make a physical product and inspect it visually, we can help.
+        Send us photos of good parts — get results in 48 hours.
       </p>
 
       <div class="app-grid">
@@ -301,29 +313,29 @@
           <div class="app-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20V8l10-4 10 4v12l-10 4-10-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 8l10 4 10-4M14 12v12" stroke="currentColor" stroke-width="1.5" opacity="0.5"/></svg>
           </div>
-          <h3>3D Printing QC</h3>
-          <p>Detect layer shifts, warping, stringing, and under-extrusion on printed parts in real-time during production.</p>
+          <h3>Additive Manufacturing</h3>
+          <p>Layer defects, warping, stringing, under-extrusion. Send reference prints, get a custom inspector back. Works with smartphone photos.</p>
         </div>
         <div class="app-card fade-in">
           <div class="app-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="6" y="4" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/><path d="M10 10h8M10 14h8M10 18h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>
           </div>
-          <h3>Electronics Inspection</h3>
-          <p>PCB solder joint verification, component placement validation, and surface defect detection on circuit boards.</p>
+          <h3>Electronics</h3>
+          <p>PCB solder joints, component placement, connector defects. Send reference boards, get results back. No AOI hardware required.</p>
         </div>
         <div class="app-card fade-in">
           <div class="app-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="2"/><path d="M14 8v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3>CNC & Machining</h3>
-          <p>Surface finish verification, dimensional accuracy checks, and tool wear detection on machined metal components.</p>
+          <h3>Automotive & CNC</h3>
+          <p>Machined surface finish, casting porosity, stamping defects. Train once on good parts, inspect every batch. 48 hours to results.</p>
         </div>
         <div class="app-card fade-in">
           <div class="app-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C8.5 4 4 8.5 4 14s4.5 10 10 10 10-4.5 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 4c3 0 6 4.5 6 10s-3 10-6 10" stroke="currentColor" stroke-width="1.5" opacity="0.5"/><path d="M4 14h20" stroke="currentColor" stroke-width="1.5" opacity="0.3"/></svg>
           </div>
-          <h3>Textile & Materials</h3>
-          <p>Fabric defect detection, surface contamination screening, and material consistency verification across production runs.</p>
+          <h3>Textiles & Packaging</h3>
+          <p>Fabric weave defects, packaging integrity, label verification. Train on good material, inspect every roll. Browser-based, no install.</p>
         </div>
       </div>
 
@@ -332,8 +344,8 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
         </div>
         <div>
-          <h4>Runs on the Edge</h4>
-          <p>The ONNX model is under 20MB and runs in-browser or on edge devices. No cloud dependency, no data leaves the factory floor. Deploy on Raspberry Pi, Jetson, or any device with a browser.</p>
+          <h4>No Install Required</h4>
+          <p>Your inspector is delivered as a browser link. Open it on your phone, tablet, or factory floor computer. When you're ready to scale, we deploy to edge hardware — Jetson, Raspberry Pi, or any device with ONNX support.</p>
         </div>
       </div>
     </div>
@@ -342,13 +354,34 @@
   <!-- ---- Contact ---- -->
   <section id="contact" class="contact-section">
     <div class="container">
-      <h2 class="section-title fade-in">See How This Applies to Your Line</h2>
+      <h2 class="section-title fade-in">Get Your First Results in 48 Hours</h2>
       <p class="section-subtitle fade-in">
-        Interested in deploying edge AI for manufacturing inspection, robotics, or quality control? Let's talk.
+        Start with a $5K Discovery Sprint. If the AI doesn't find defects, you don't pay.
       </p>
 
+      <!-- Pricing Ladder -->
+      <div class="pricing-ladder fade-in">
+        <div class="price-tier">
+          <div class="price-amount">$5K</div>
+          <div class="price-label">Discovery Sprint</div>
+          <div class="price-desc">48 hours to results</div>
+        </div>
+        <div class="price-arrow">&rarr;</div>
+        <div class="price-tier">
+          <div class="price-amount">$100K</div>
+          <div class="price-label">Production Deploy</div>
+          <div class="price-desc">4-8 weeks, full integration</div>
+        </div>
+        <div class="price-arrow">&rarr;</div>
+        <div class="price-tier">
+          <div class="price-amount">$5K/mo</div>
+          <div class="price-label">Ongoing Retainer</div>
+          <div class="price-desc">Monitoring + retraining</div>
+        </div>
+      </div>
+
       <form class="contact-form" action="https://formspree.io/f/xwvrproj" method="POST">
-        <input type="hidden" name="_subject" value="SALT Inspector Inquiry">
+        <input type="hidden" name="_subject" value="SALT Inspector — 48-Hour Sprint Request">
         <div class="form-group">
           <label for="contact-name">Name</label>
           <input type="text" id="contact-name" name="name" required placeholder="Your name">
@@ -358,11 +391,24 @@
           <input type="email" id="contact-email" name="email" required placeholder="you@company.com">
         </div>
         <div class="form-group">
+          <label for="contact-industry">What do you make?</label>
+          <select id="contact-industry" name="industry">
+            <option value="">Select your industry...</option>
+            <option value="cnc-machining">CNC Machining / Metal Parts</option>
+            <option value="electronics">Electronics / PCB Assembly</option>
+            <option value="3d-printing">3D Printing / Additive Manufacturing</option>
+            <option value="injection-molding">Injection Molding / Plastics</option>
+            <option value="textiles">Textiles / Fabrics</option>
+            <option value="food-packaging">Food & Beverage / Packaging</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="contact-message">Message</label>
           <textarea id="contact-message" name="message" required placeholder="Tell me about your production line or inspection challenge..."></textarea>
         </div>
-        <button type="submit">Send Message</button>
-        <p class="form-note">Your message goes directly to my inbox. I typically respond within 24 hours.</p>
+        <button type="submit">Start My 48-Hour Sprint</button>
+        <p class="form-note">Your sprint request goes directly to my inbox. I typically respond within 4 hours.</p>
       </form>
     </div>
   </section>
@@ -371,7 +417,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <p>Built by <strong>Sikorski AI Research Lab</strong></p>
+        <p>Built by <strong>Sikorski AI Research Lab</strong> &middot; Results as a Service for Manufacturing</p>
         <p class="footer-tech">SALT (Apple ICLR 2025) &middot; MVTec AD &middot; ONNX Runtime Web &middot; Vision Transformer</p>
       </div>
     </div>
