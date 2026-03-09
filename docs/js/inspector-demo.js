@@ -391,14 +391,13 @@
     // Render heatmap
     renderHeatmap(scores);
 
-    // Anomaly score: use top-3 most anomalous patches (sensitive to localized defects)
-    // then amplify since raw cosine distances are small (0.01-0.15 range)
-    const sorted = Array.from(scores).sort((a, b) => b - a);
-    const topK = sorted.slice(0, 3);
-    const rawScore = topK.reduce((a, b) => a + b, 0) / topK.length;
-    // Amplify: map model's effective range (0-0.20) → display range (0-100%)
-    // Using sigmoid-like curve for smooth scaling
-    const amplified = Math.min(1.0, rawScore * 5.0);
+    // Anomaly score: mean of ALL patch distances (matches Python scoring pipeline)
+    // Raw scores range ~0.002-0.45 depending on category
+    const meanScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+    // Amplify with diminishing returns: sqrt-based curve maps
+    // 0.01 → 9%, 0.05 → 20%, 0.15 → 35%, 0.30 → 49%, 0.50+ → 63%+
+    // This separates good (<20%) from defective (>25%) more reliably
+    const amplified = Math.min(1.0, Math.sqrt(meanScore) * 0.9);
     const scorePercent = Math.round(amplified * 100);
 
     scoreValue.textContent = scorePercent + '%';
