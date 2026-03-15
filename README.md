@@ -4,7 +4,7 @@
 
 ## Live Demo
 
-> **[salt-inspect.com](https://salt-inspect.com)** *(coming soon)*
+> **[salt-inspector](https://maxsikorski.github.io/salt-inspect/)**
 
 - Upload any image and see per-patch anomaly heatmaps
 - Point your camera at objects for real-time defect detection
